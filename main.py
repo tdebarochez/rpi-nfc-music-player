@@ -14,19 +14,19 @@ def getPlaylist(x):
     # }.get(x, 'not-found')
     return playlists.get(x, 'not-found')
 
-System.out.println("Load ", playlists)
+print("Load ", playlists)
 
 pn532 = Pn532_i2c()
 pn532.SAMconfigure()
 
-System.out.println("Waiting for nfc card presentation...")
+print("Waiting for nfc card presentation...")
 
 while True:
   card_data = pn532.read_mifare().get_data()
   nfc_card_id = bytes(card_data).hex()
   playlist = getPlaylist(nfc_card_id)
   if playlist == 'not-found':
-    System.out.println("No playlist found for " + nfc_card_id)
+    print("No playlist found for " + nfc_card_id)
   else:
     subprocess.call(['mpc', 'stop']);
     subprocess.call(['mpc', 'clear']);
