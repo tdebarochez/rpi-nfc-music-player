@@ -1,0 +1,14 @@
+[Unit]
+Description=RPI NFC music player
+After=multi-user.target
+Conflicts=getty@tty1.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/rpi-nfc-music-player
+ExecStart=/home/pi/rpi-nfc-music-player/start.sh
+StandardInput=tty-force
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
