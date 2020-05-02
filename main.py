@@ -30,12 +30,12 @@ while True:
   playlist = getPlaylist(nfc_card_id)
 
   if playlist == 'not-found':
-+    url = getUrl(nfc_card_id)
-+    if url == 'not-found':
-+      print("No playlist or url found for " + nfc_card_id)
-+    else:
-+      subprocess.call(['chromium-browser', '--disable-component-update', '--window-size=320,480', '--start-fullscreen', '--kiosk', '--noerrdialogs', '--disable-translate', '--no-first-run', '--fast', '--fast-start', '--disable-infobars', '--disable-features=TranslateUI', '--force-device-scale-factor=0.65', url])
-+      time.sleep(3)
+    url = getUrl(nfc_card_id)
+    if url == 'not-found':
+      print("No playlist or url found for " + nfc_card_id)
+    else:
+      subprocess.call(['chromium-browser', '--disable-component-update', '--window-size=320,480', '--start-fullscreen', '--kiosk', '--noerrdialogs', '--disable-translate', '--no-first-run', '--fast', '--fast-start', '--disable-infobars', '--disable-features=TranslateUI', '--force-device-scale-factor=0.65', url])
+      time.sleep(3)
   else:
     subprocess.call(['mpc', 'stop']);
     subprocess.call(['mpc', 'clear']);
