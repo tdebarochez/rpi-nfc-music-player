@@ -8,13 +8,16 @@ import json
 with open('playlists.json', 'r') as f:
     playlists = json.load(f)
 
+with open('urls.json', 'r') as f:
+    urls = json.load(f)
+
 def getPlaylist(x):
-    # return {
-    #     '4b0101000408049e017581': 'Chill Bump'
-    # }.get(x, 'not-found')
     return playlists.get(x, 'not-found')
 
-print("Load ", playlists)
+def getUrl(x):
+    return urls.get(x, 'not-found')
+
+print("Load ", playlists, urls)
 
 pn532 = Pn532_i2c()
 pn532.SAMconfigure()
@@ -25,8 +28,14 @@ while True:
   card_data = pn532.read_mifare().get_data()
   nfc_card_id = bytes(card_data).hex()
   playlist = getPlaylist(nfc_card_id)
+
   if playlist == 'not-found':
-    print("No playlist found for " + nfc_card_id)
++    url = getUrl(nfc_card_id)
++    if url == 'not-found':
++      print("No playlist or url found for " + nfc_card_id)
++    else:
++      subprocess.call(['chromium-browser', '--disable-component-update', '--window-size=320,480', '--start-fullscreen', '--kiosk', '--noerrdialogs', '--disable-translate', '--no-first-run', '--fast', '--fast-start', '--disable-infobars', '--disable-features=TranslateUI', '--force-device-scale-factor=0.65', url])
++      time.sleep(3)
   else:
     subprocess.call(['mpc', 'stop']);
     subprocess.call(['mpc', 'clear']);
